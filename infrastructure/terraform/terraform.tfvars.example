@@ -1,0 +1,40 @@
+# Скопируйте этот файл в terraform.tfvars и заполните своими значениями
+
+# Данные для доступа к Yandex Cloud
+# (если они у тебя вынесены в переменные, например cloud_id, folder_id)
+# Убедитесь, что у вас есть файл key.json для сервисного аккаунта
+
+vm_config = {
+  "bind_serv" = {
+    vm_name   = "bind-vm"
+    vm_desc   = "DNS server on bind9"
+    vm_cpu    = 2
+    ram       = 2
+    disk      = 20
+    disk_name = "ubuntu-2204-lts"
+    template  = "ВАШ_IMAGE_ID_ЗДЕСЬ" # <--- Фейковый ID
+    zone      = "ru-central1-d"
+  }
+
+  "unbound_serv" = {
+    vm_name   = "unbound-vm"
+    vm_desc   = "DNS server on unbound"
+    vm_cpu    = 2
+    ram       = 2
+    disk      = 20
+    disk_name = "ubuntu-2204-lts"
+    template  = "ВАШ_IMAGE_ID_ЗДЕСЬ"
+    zone      = "ru-central1-d"
+  }
+
+  "client" = {
+    vm_name   = "client"
+    vm_desc   = "vm client"
+    vm_cpu    = 2
+    ram       = 2
+    disk      = 20
+    disk_name = "ubuntu-2204-lts"
+    template  = "ВАШ_IMAGE_ID_ЗДЕСЬ"
+    zone      = "ru-central1-d"
+  }
+}

@@ -1,0 +1,5 @@
+- name: Configure DNS Bind9
+  hosts: dns_bind
+  become: yes
+  roles:
+    - role: ../roles/bind9

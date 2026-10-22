@@ -1,0 +1,15 @@
+$TTL 36000
+
+@       IN      SOA     {{ bind_soa_ns }} {{ bind_soa_email }} (
+                2026102201      ; Serial
+                7200            ; Refresh
+                3600            ; Retry
+                1209600         ; Expire
+                36000           ; Minimum
+)
+
+; NS-запись
+@       IN      NS      {{ bind_soa_ns }}
+
+; PTR-запись (IP -> Имя)
+10      IN      PTR     ns1.{{ bind_domain }}.

@@ -1,0 +1,14 @@
+;unbound — конфигурационный файл для Unbound
+
+server:
+    directory: "/etc/unbound"
+    username: unbound
+    logfile: "/var/log/unbound"
+    use-syslog: no
+    hide-version: yes
+    interface: {{ unbound_interface }}
+    port: 53
+    access-control: {{ unbound_access_control }} allow
+    msg-cache-size: {{ msg_cache_size }}
+    rrset-cache-size: {{ rrset_cache_size }}
+    do-ip6: no

@@ -1,0 +1,7 @@
+bind_domain: s6ade.local
+#IP веб сервера(client vm)
+ip_client: 158.160.189.115 #IP после как создам инфру
+
+#SAO-запись
+bind_soa_ns: "ns1.{{ bind_domain }}."
+bind_soa_email: "admin.{{ bind_domain }}."

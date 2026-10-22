@@ -1,0 +1,17 @@
+$TTL 36000
+
+@	IN 	SOA	{{ bind_soa_ns }} {{ bind_soa_email }} (
+			2026102201	; Serial(Версия зоны, растёт при каждом изменении)
+			7200		; Refresh(Интервал проверки serial вторичным)
+			3600		; Retry(Пауза перед повтором после сбоя)
+			1209600		; Expire(Срок жизни данных без связи с primary)
+			36000		; Minimum-negative TTL(TTL отрицательного кэша (NXDOMAIN))
+)
+
+; NS-запись
+@ 	IN		NS 		{{ bind_soa_ns }}
+
+; A-запись
+@ 		IN		A 		10.0.0.10 ;IP bind-vm(Сам DNS сервер)
+ns1 	IN		A 		10.0.0.10 ;IP bind-vm
+www 	IN		A 		{{ ip_client }} ;IP client-vm

@@ -1,0 +1,73 @@
+- name: Update apt cache
+  ansible.builtin.command: apt-get update
+  changed_when: false
+
+- name: Upgrade package
+  apt:
+    upgrade: safe
+    autoremove: yes
+
+- name: Install required package
+  apt:
+    name:
+      - unbound
+    state: present
+
+- name: Allow SSH
+  community.general.ufw:
+    rule: allow
+    port: '22'
+    proto: tcp
+
+- name: Allow all access to tcp port 80
+  community.general.ufw:
+    rule: allow
+    port: '80'
+    proto: tcp
+
+- name: Allow all access to tcp port 443
+  community.general.ufw:
+    rule: allow
+    port: '443'
+    proto: tcp
+
+- name: Allow DNS TCP
+  community.general.ufw:
+    rule: allow
+    port: '53'
+    proto: tcp
+
+- name: Allow DNS UDP
+  community.general.ufw:
+    rule: allow
+    port: '53'
+    proto: udp
+
+- name: Enable UFW
+  community.general.ufw:
+    state: enabled
+
+- name: Disable systemd-resolved
+  ansible.builtin.systemd_service:
+    name: systemd-resolved
+    state: stopped
+    enabled: no
+
+- name: Copy configuration template
+  ansible.builtin.template:
+    src: main.conf.j2
+    dest: /etc/unbound/unbound.conf.d/main.conf
+  notify: restart unbound
+
+- name: Disable DNSStubListener in resolved.conf
+  ansible.builtin.lineinfile:
+    path: /etc/systemd/resolved.conf
+    regexp: '^#?DNSStubListener='
+    line: 'DNSStubListener=no'
+  notify: restart systemd-resolved
+
+- name: Start and enabled unbound
+  systemd:
+    name: unbound
+    state: started
+    enabled: yes

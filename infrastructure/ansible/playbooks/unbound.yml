@@ -1,0 +1,5 @@
+- name: Configure DNS Unbound
+  hosts: dns_unbound
+  become: yes
+  roles:
+    - role: ../roles/unbound

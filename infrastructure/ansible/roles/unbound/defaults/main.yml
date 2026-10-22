@@ -1,0 +1,7 @@
+# Переменные для конфигов
+unbound_interface: "0.0.0.0"
+unbound_access_control: "10.0.0.0/24"
+
+# Настройки кэша
+msg_cache_size: "16m"
+rrset_cache_size: "32m"

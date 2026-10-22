@@ -1,0 +1,73 @@
+    - name: Update package
+      apt:
+        update_cache: yes
+    - name: Upgrade package
+      apt:
+        upgrade: safe
+        autoremove: yes
+
+    - name: Install required package
+      apt:
+        name:
+          - bind9
+          - bind9utils
+          - dnsutils
+        state: present
+
+    - name: Start and enabled bind9
+      systemd:
+        name: bind9
+        state: started
+        enabled: yes
+
+    - name: Allow SSH
+      community.general.ufw:
+        rule: allow
+        port: '22'
+        proto: tcp
+
+    - name: Allow all access to tcp port 80
+      community.general.ufw:
+        rule: allow
+        port: '80'
+        proto: tcp
+
+    - name: Allow all access to tcp port 443
+      community.general.ufw:
+        rule: allow
+        port: '443'
+        proto: tcp
+
+    - name: Allow DNS TCP
+      community.general.ufw:
+        rule: allow
+        port: '53'
+        proto: tcp
+
+    - name: Allow DNS UDP
+      community.general.ufw:
+        rule: allow
+        port: '53'
+        proto: udp
+
+    - name: Enable UFW
+      community.general.ufw:
+        state: enabled
+
+    - name: Copy configuration template
+      ansible.builtin.template:
+        src: named.conf.local.j2
+        dest: /etc/bind/named.conf.local
+      notify: restart bind9
+
+    - name: Copy db.zone template
+      ansible.builtin.template:
+        src: db.zone.j2
+        dest: /etc/bind/db.{{ bind_domain }}
+      notify: restart bind9
+
+    - name: Copy revers db.10 template
+      ansible.builtin.template:
+        src: db.10.j2
+        dest: /etc/bind/db.10
+      notify: restart bind9

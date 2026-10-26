@@ -38,3 +38,5 @@ vm_config = {
     zone      = "ru-central1-d"
   }
 }
+cloud_id = # свои значения 
+folder_id = # свои значения 
